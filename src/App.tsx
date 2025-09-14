@@ -1,7 +1,8 @@
 import './App.css'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Tesseract from 'tesseract.js'
-import tesseractWorker from './wasm/worker.min.js?url'
+import workerPath from './models/worker.min.js?url'
+import corePath from './models/tesseract-core-simd-lstm.wasm.js?url'
 
 function App() {
   const [file, setFile] = useState<File | null>(null)
@@ -9,7 +10,7 @@ function App() {
   const [text, setText] = useState<string>('')
   const [progress, setProgress] = useState<number>(0)
   const [status, setStatus] = useState<string>('idle')
-  const [lang] = useState<string>('eng')
+  const lang = 'eng'
   const imgRef = useRef<HTMLImageElement | null>(null)
   const overlayRef = useRef<HTMLDivElement | null>(null)
   const [dragging, setDragging] = useState(false)
@@ -47,7 +48,8 @@ function App() {
     setProgress(0)
     try {
       const { data } = await Tesseract.recognize(file, lang, {
-        workerPath: tesseractWorker,
+        workerPath: workerPath,
+        corePath: corePath,
         logger: (m) => {
           if (m.status) setStatus(m.status)
           if (m.progress != null) setProgress(Math.round(m.progress * 100))
@@ -93,7 +95,8 @@ function App() {
       })()
 
       const { data } = await Tesseract.recognize(cropped, lang, {
-        workerPath: tesseractWorker,
+        workerPath: workerPath,
+        corePath: corePath,
         logger: (m) => {
           if (m.status) setStatus(m.status)
           if (m.progress != null) setProgress(Math.round(m.progress * 100))
@@ -201,7 +204,7 @@ function App() {
       maxWidth: 960,
       margin: '0 auto'
     }}>
-      <h1>图片文字识别（tesseract.js）</h1>
+      <h1>图片文字识别（tesseract）</h1>
 
       <div style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>
         <input type="file" accept="image/*" onChange={handleFileChange} />
