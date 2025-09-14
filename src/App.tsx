@@ -9,7 +9,7 @@ function App() {
   const [text, setText] = useState<string>('')
   const [progress, setProgress] = useState<number>(0)
   const [status, setStatus] = useState<string>('idle')
-  const [lang, setLang] = useState<string>('eng')
+  const [lang] = useState<string>('eng')
   const imgRef = useRef<HTMLImageElement | null>(null)
   const overlayRef = useRef<HTMLDivElement | null>(null)
   const [dragging, setDragging] = useState(false)
@@ -39,8 +39,6 @@ function App() {
     setStatus('idle')
     if (f) setFile(f)
   }, [])
-
-  const canOcr = useMemo(() => !!file && status !== 'running', [file, status])
 
   const handleOcr = useCallback(async () => {
     if (!file) return
