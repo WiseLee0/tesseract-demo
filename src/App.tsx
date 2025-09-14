@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Tesseract from 'tesseract.js'
 import workerPath from './models/worker.min.js?url'
 import corePath from './models/tesseract-core-simd-lstm.wasm.js?url'
+import langPath from './models/eng-fast.traineddata.gz?url'
 
 function App() {
   const [file, setFile] = useState<File | null>(null)
@@ -50,6 +51,7 @@ function App() {
       const { data } = await Tesseract.recognize(file, lang, {
         workerPath: workerPath,
         corePath: corePath,
+        langPath,
         logger: (m) => {
           if (m.status) setStatus(m.status)
           if (m.progress != null) setProgress(Math.round(m.progress * 100))
@@ -97,6 +99,7 @@ function App() {
       const { data } = await Tesseract.recognize(cropped, lang, {
         workerPath: workerPath,
         corePath: corePath,
+        langPath,
         logger: (m) => {
           if (m.status) setStatus(m.status)
           if (m.progress != null) setProgress(Math.round(m.progress * 100))
