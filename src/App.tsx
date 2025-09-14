@@ -3,8 +3,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Tesseract from 'tesseract.js'
 import workerPath from './models/worker.min.js?url'
 import corePath from './models/tesseract-core-simd-lstm.wasm.js?url'
-import langPath from './models/eng-fast.gz?url'
 
+const langPath = import.meta.env.BASE_URL;
 function App() {
   const [file, setFile] = useState<File | null>(null)
   const [imageUrl, setImageUrl] = useState<string | null>(null)
