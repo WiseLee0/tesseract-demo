@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Tesseract from 'tesseract.js'
 import workerPath from './models/worker.min.js?url'
 import corePath from './models/tesseract-core-simd-lstm.wasm.js?url'
-import langPath from './models/eng-fast.traineddata.gz?url'
+import langPath from './models/eng-fast.gz?url'
 
 function App() {
   const [file, setFile] = useState<File | null>(null)
